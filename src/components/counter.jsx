@@ -1,38 +1,48 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Counter extends Component {
-    state = {
-        value: this.props.value,
-    };
-
-    /* constructor(){
-        super();
-        this.handleIncrement = this.handleIncrement.bind(this);
-    } */
-
-    handleIncrement = () => {
-        this.setState({ value: this.state.value + 1 });
-    }
-
     render() {
+        console.log("props", this.props);
+        const { counter, onIncrement, onDecrement, onDelete } = this.props;
         return (
-            <div>
-                {/* {this.props.children}
-                <h1>{this.props.id}</h1> */}
-                <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-                <button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
+            <div className="row">
+                <div className="col-1">
+                    <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+                </div>
+                <div className="col">
+                    <button
+                        onClick={() => onIncrement(counter)}
+                        className="btn btn-secondary btn-sm"
+                    >
+                        +
+          </button>
+                    <button
+                        onClick={() => onDecrement(counter)}
+                        className="btn btn-secondary btn-sm m-2"
+                        disabled={counter.value === 0 ? "disabled" : ""}
+                    >
+                        -
+          </button>
+                    <button
+                        onClick={() => onDelete(counter.id)}
+                        className="bnt btn-danger btn-sm"
+                    >
+                        Delete
+          </button>
+                </div>
             </div>
         );
     }
 
     getBadgeClasses() {
         let classes = "badge m-2 badge-";
-        classes += this.state.value === 0 ? "warning" : "primary";
+        classes += this.props.counter.value === 0 ? "warning" : "primary";
         return classes;
     }
 
     formatCount() {
-        return this.state.value === 0 ? 'Zero' : this.state.value;
+        const { value } = this.props.counter;
+        return value === 0 ? "Zero" : value;
     }
 }
 
